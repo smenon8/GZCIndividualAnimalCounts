@@ -10,6 +10,7 @@ Functionaties:
     2. getImageFeature(<annot_id>,<feature>) : returns the feature corresponding to the annotation ID
     3. getContributorGID(<contributor_id>) : returns a list of images (image gid) clicked by the contributor
     4. getAgeFeatureReadableFmt(<age from IBEIS API> : returns a human readable age)
+
 """
 
 import requests
@@ -72,7 +73,7 @@ def __main__():
         print(getImageFeature(getAnnotID(i),"name/rowid")) # NID
         print(getImageFeature(getAnnotID(i),"name/text")) # Individual Name
         print(getImageFeature(getAnnotID(i),"image/contributor/tag")) # Image contributor Tag
-
+        print("End of script")
 
 if __name__ == "__main__":
    __main__()
