@@ -19,7 +19,7 @@ from collections import defaultdict
 import csv 
 import matplotlib.pyplot as plt
 import numpy as np
-
+import pylab as p
 
 aid_list = []
 gidAidDict = {}
@@ -35,12 +35,10 @@ for aid_l in aid_list:
     for aid in aid_l:
         aids.append(aid)
 
-
 aidContribTupList = []
 for aid in aids:
     contrib = GP.getImageFeature(aid,'image_contributor_tag')
     aidContribTupList.append((aid,contrib[0]))
-
 
 aidNidMap = {}
 aidNamesMap = {}
@@ -73,6 +71,7 @@ aidNidDf = aidNidDf[(aidNidDf['NID']>0)]
 
 aidGidNidDf = pd.merge(aidGidDf,aidNidDf,left_on = 'AID',right_on = 'AID')
 aidGidNidContribDf = pd.merge(aidGidNidDf,aidContribDf,left_on = 'AID',right_on = 'AID')
+
 aidGidNidContribDf.to_csv('results.csv',index=False)
 
 
@@ -111,7 +110,6 @@ def picsTakenByContributor(filename, boolean):
         return ContribTotal
     
     return
-
 
 # Arguments : CSV file, boolean(True create csv files, False return Dictionary)
 # Returns: CSV file or Dictionary(key : NID, CONTRIBUTOR and value: Total photos taken)   
@@ -155,7 +153,7 @@ def averagePicsTakenByContributor(filename, boolean):
     if boolean == True:
         csv_out = csv.writer(open('averagePicsTakenByContributor.csv', 'w')) 
         csv_out.writerow(['CONTRIBUTOR', "Average"])
-        for contrib, average in averagePicsPerContrib.items(): 
+        for contrib, average in averagePicsPerContrib.items(): #DICTIONARY WITHIN A DICTIONARY
             csv_out.writerow([contrib, average])
     
     else:
@@ -410,6 +408,7 @@ def getContributorSpecificFeatureList(contribAnimFeatCount, specificfeat):
     
     return sortedcontribSpecFeatureMap
 
+
 # Arguments : Feature name first the specific features in a list
 # Returns : None
 # Creates: csv file
@@ -594,10 +593,10 @@ def createCombinedCsvFromList(*args):
 
         FinalContribDf.to_csv('yaw_texts.csv',index=False) 
 
-
 # Arguments : CSV file
 # Returns : None
 # Creates: csv file with sum column
+
 def sumRows(filename, header=False):  
     with open(filename,'r') as csvfile:
         with open('sum' + filename, 'w') as csvoutput:
@@ -617,7 +616,6 @@ def sumRows(filename, header=False):
                 all.append(row)
 
             writer.writerows(all)
-
 
 # Arguments: Filename, feature, and required specific features in a list in that order
 # Creates: a stacked bar graph
@@ -684,7 +682,6 @@ def createStackgraph(*args):
     
     plt.savefig(str("../"+args[2] +"_expt2.png"),bbox_inches='tight') # can't put feature because it says can't find directory ex. sex/text
 
-
 # Arguments : csv_file , Required Specific Feature
 # Accepted Specific Features: sex_texts = "Male", "Female", "UNKNOWN SEX", etc.
 # Creates: plot
@@ -705,4 +702,68 @@ def creategraph(csv_file, specific_feature):
     
     plt.savefig(str("../"+specific_feature+"_expt2.png") ,bbox_inches='tight')
  
+# Arguments : csv_file 
+# Creates: csv file with Nid, Total
+def totalNumberOfContrib(csv_file):
+    NidContribTotal = numberPicsIndividualContributor('results.csv', False)
 
+    countUnique={}
+    for (nid, contrib), total in NidContribTotal.items():
+        countUnique[nid]=countUnique.get((nid), 0) + 1
+        
+    sortedcountUnique=sorted(countUnique.items(),key = operator.itemgetter(1), reverse=True)
+    
+    csv_out = csv.writer(open('NidNumberOfContrib.csv', 'w')) 
+    csv_out.writerow(['NID', 'Count'])
+    for row in sortedcountUnique:
+        csv_out.writerow(row)
+
+# Arguments : csv_file 
+# Creates: csv file with either Nid, Total or Nid, # of contributors
+def TotalsGraph(filename):
+    data=pd.read_csv(filename,  usecols=(0,1))
+
+    width = 0.10
+    ind = np.arange(2056) + 0.15
+
+    plt.bar(ind,data.loc[:, 'Count'], width, color = 'r')
+
+    plt.xticks(ind,data.loc[:, 'NID'], rotation=90)
+    plt.rcParams['xtick.labelsize'] = 1
+    plt.xlabel('NID')
+    
+    if filename == 'NidTotal.csv':
+        plt.ylabel('Total Photos Taken')
+        plt.savefig(str("../NIDTotal_expt2.png") ,bbox_inches='tight')
+    else:
+        plt.ylabel('Total Contributors')
+        plt.savefig(str("../NIDContribTotal_expt2.png") ,bbox_inches='tight')
+    
+    #plt.show()
+
+# Arguments : 2 csv_files
+# Creates a merged csv file based on NID
+def mergeTwoFiles(filename1, filename2):
+    csv1 = pd.read_csv(filename1)
+    csv2 = pd.read_csv(filename2)
+    merged = csv1.merge(csv2, on = 'NID')
+    merged.to_csv('output.csv', index = False)
+
+# Arguments : csv_file
+# Creates a PointGraph
+def createCombinedPointGraph(filename):
+    data=pd.read_csv(filename,  usecols=(0,1,2))
+    width = 0.10
+    ind = np.arange(2056) + 0.15
+
+    p1=p.plot(data.loc[:, 'Count_x'], marker='o', color='r')
+    p2=p.plot(data.loc[:, 'Count_y'], marker='o', color = 'b')
+
+    p.legend((p1[0], p2[0]), ('NID Total', 'Number of Contributors'))
+    p.xticks(ind,data.loc[:, 'NID'], rotation=90)
+    p.rcParams['xtick.labelsize'] = 1
+    p.ylabel('Total Photos Taken/ Total Number of Contributors')
+    p.xlabel('NID')
+
+    #p.show()
+    plt.savefig(str("../NIDandContributor_expt2.png") ,bbox_inches='tight')
