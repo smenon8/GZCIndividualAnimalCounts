@@ -10,7 +10,6 @@ Functionaties:
     2. getImageFeature(<annot_id>,<feature>) : returns the feature corresponding to the annotation ID
     3. getContributorGID(<contributor_id>) : returns a list of images (image gid) clicked by the contributor
     4. getAgeFeatureReadableFmt(<age from IBEIS API> : returns a human readable age)
-
 """
 
 import requests
@@ -62,6 +61,21 @@ def getAgeFeatureReadableFmt(ageList):
     else:
         return ["unknown"]
 
+import datetime
+# Arguments : GID of an image, required EXIF feature(currently supports unixtime, lat, lon
+# This method should be used for extracting the exif information of a picture.
+def getExifData(gidList,exifFtr):
+    response = requests.get(baseurl + '/api/image/' + exifFtr +'/?gid_list='+ str(gidList))
+    jsonObj = response.json()
+
+    return jsonObj['response']
+
+# Method for converting unix times into human readable format. 
+# Current return format: YYYY-MM-DD HH-mm-ss
+def getUnixTimeReadableFmt(unixtm):
+    return datetime.datetime.fromtimestamp(int(unixtm)).strftime('%Y-%m-%d %H:%M:%S')
+
+
 def __main__():
     for i in range(1,11):
         print(getImageFeature(getAnnotID(i),"age/months")) # age
@@ -73,7 +87,7 @@ def __main__():
         print(getImageFeature(getAnnotID(i),"name/rowid")) # NID
         print(getImageFeature(getAnnotID(i),"name/text")) # Individual Name
         print(getImageFeature(getAnnotID(i),"image/contributor/tag")) # Image contributor Tag
-        print("End of script")
+
 
 if __name__ == "__main__":
    __main__()

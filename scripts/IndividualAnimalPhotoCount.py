@@ -7,6 +7,12 @@ Date: May 25 2016
 
 Modified: Anthony Leon and Jose Hernandez
 Date: July 14 2016 
+# In[ ]:
+
+#FINAL ONE!!! As of 8/24/16
+
+
+# In[1]:
 
 import GetPropertiesAPI as GP
 from collections import Counter
@@ -21,6 +27,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pylab as p
 
+
+# In[196]:
+
 aid_list = []
 gidAidDict = {}
 for gid in range(1,9407):
@@ -30,15 +39,24 @@ for gid in range(1,9407):
 
 aid_list = list(filter(lambda x: x != None,aid_list))
 
+
+# In[16]:
+
 aids = []
 for aid_l in aid_list:
     for aid in aid_l:
         aids.append(aid)
 
+
+# In[20]:
+
 aidContribTupList = []
 for aid in aids:
     contrib = GP.getImageFeature(aid,'image_contributor_tag')
     aidContribTupList.append((aid,contrib[0]))
+
+
+# In[21]:
 
 aidNidMap = {}
 aidNamesMap = {}
@@ -49,13 +67,25 @@ for aid in aids:
     aidNidMap[aid] = nid
     aidNidTupList.append((aid,nid[0]))
 
+
+# In[22]:
+
 nids = []
 for aid in aidNidMap.keys():
     nids.append(aidNidMap[aid][0])
 
+
+# In[23]:
+
 nids = list(filter(lambda x : x > 0,nids))
 
+
+# In[9]:
+
 counter_nid= Counter(nids)
+
+
+# In[10]:
 
 gidAidDict
 aidGidTupList = [] # key : aid and value : gid # modified
@@ -64,21 +94,32 @@ for gid in gidAidDict.keys():
         for aid in gidAidDict[gid]:
             aidGidTupList.append((aid,gid))
 
+
+# In[11]:
+
 aidGidDf = pd.DataFrame(aidGidTupList,columns = ['AID','GID']) 
 aidNidDf = pd.DataFrame(aidNidTupList,columns = ['AID','NID']) 
 aidContribDf = pd.DataFrame(aidContribTupList,columns = ['AID','CONTRIBUTOR'])
 aidNidDf = aidNidDf[(aidNidDf['NID']>0)]
 
+
+# In[12]:
+
 aidGidNidDf = pd.merge(aidGidDf,aidNidDf,left_on = 'AID',right_on = 'AID')
 aidGidNidContribDf = pd.merge(aidGidNidDf,aidContribDf,left_on = 'AID',right_on = 'AID')
+
+
+# In[13]:
 
 aidGidNidContribDf.to_csv('results.csv',index=False)
 
 
+# In[6]:
+
 # Arguments : CSV file, boolean(True create csv files, and plot, False return Dictionary)
 # Returns: CSV files, plot or Dictionary(key : CONTRIBUTOR and value: Total photos taken)          
 def picsTakenByContributor(filename, boolean):
-    with open('results.csv') as f: # read from csv file into a key : GID and value : CONTRIBUTOR
+    with open(filename) as f: # read from csv file into a key : GID and value : CONTRIBUTOR
         reader = csv.DictReader(f)
         gidContribMap = { line['GID']: line['CONTRIBUTOR'] for line in reader }
     
@@ -92,18 +133,19 @@ def picsTakenByContributor(filename, boolean):
         csv_out.writerow(['CONTRIBUTOR', 'TOTAL'])
         for Contrib, value in ContribTotal.items():
             csv_out.writerow([Contrib, value])
-            
+      
         data = pd.read_csv('ContributorTotal.csv', sep=',',header=0, index_col =0)
 
         data = data.sort_values('TOTAL', ascending=False)
 
         data.plot(kind='bar')
-        plt.ylabel('Number of pictures taken')
+        plt.ylabel('Number of photos taken')
         plt.xlabel('Contributor')
-        plt.title('Total Images/Contributor Totals')
+        plt.xticks(fontsize=6)
+        plt.title('Number of Photos taken by Contributor')
 
-        #plt.show()
-        plt.savefig(str("contributorTotal.png") ,bbox_inches='tight')
+        #plt.show() #must be taken out to be able to save
+        plt.savefig(str("contributorTotal.png") ,bbox_inches='tight') #can change to any name
     else:
         print(s.mean(ContribTotal.values()))
         print(s.stdev(ContribTotal.values()))
@@ -111,11 +153,14 @@ def picsTakenByContributor(filename, boolean):
     
     return
 
+
+# In[7]:
+
 # Arguments : CSV file, boolean(True create csv files, False return Dictionary)
 # Returns: CSV file or Dictionary(key : NID, CONTRIBUTOR and value: Total photos taken)   
 def numberPicsIndividualContributor(filename, boolean):
 
-    with open('results.csv') as f2: # read from csv file into a Dict with key : AID and value : GID, NID, CONTRIBUTOR
+    with open(filename) as f2: # read from csv file into a Dict with key : AID and value : GID, NID, CONTRIBUTOR
         reader2 = csv.DictReader(f2)
         aidToGidNidContribMap = { line['AID']: [line['GID'], line['NID'], line['CONTRIBUTOR']] for line in reader2 }
     
@@ -134,6 +179,8 @@ def numberPicsIndividualContributor(filename, boolean):
     
     return
 
+
+# In[42]:
 
 # Arguments : CSV file, boolean(True create csv files, False return Dictionary)
 # Returns: CSV file or Dictionary(key : CONTRIBUTOR and value: Average photos taken)  
@@ -160,11 +207,15 @@ def averagePicsTakenByContributor(filename, boolean):
         return averagePicsPerContrib
 
 
+# In[19]:
+
 # Arguments : CSV file, Required Feature, boolean
 # Accepted Features: species_texts, age_months_est, exemplar_flags, sex_texts, yaw_texts, quality_texts,image_contributor_tag
 #                    boolean = True if want individual csv files, False if only want end product
 # Returns : None
 # Creates: specific feature csv file and/or all feature csv file, all feature csv file with sum and plot
+# IMPORTANT for the naming of csv files and graphs the default is for both zebras and giraffes if want only zebra and/or only giraffes
+#     must physically change the output csv filename so won't overwrite the previous csv file or graph
 def getContributorFeature(filename, feature, boolean):
     
     with open(filename) as f: # read from csv file into a Dict with key : AID and value : GID, NID, CONTRIBUTOR
@@ -266,7 +317,7 @@ def getContributorFeature(filename, feature, boolean):
             getContributorSpecificFeature(contribAnimFeatCount, "UNKNOWN SEX")
         
             # combine previous csv files
-            createcombinedcsv(feature, "Male", "Female", "UnknownSex")
+            createcombinedcsv(feature, "Male", "Female", "UNKNOWN SEX")
         
         else: # get specific feature list
             Male = getContributorSpecificFeatureList(contribAnimFeatCount, 'Male')
@@ -359,12 +410,15 @@ def getContributorFeature(filename, feature, boolean):
         for contrib, contrib2 in contribAnimFeatCount.items(): #DICTIONARY WITHIN A DICTIONARY
             for contrib3, total in contrib2.items():
                 csv_out.writerow([contrib3, total])
-                
+        
         creategraph('contribImage_Contributor_TagMap.csv', feature)
     
     else:
         print("WRong feature, SOMETHING IS WRONG")
         
+
+
+# In[11]:
 
 # Arguments : ContributorToFeatureDict , Required Specific Feature
 # Accepted Specific Features: 
@@ -389,6 +443,8 @@ def getContributorSpecificFeature(contribAnimFeatCount, specificfeat):
         csv_out.writerow(row)
 
 
+# In[12]:
+
 # Arguments : ContributorToFeatureDict , Required Specific Feature
 # Accepted Specific Features: 
     # sex/text = "Male", "Female", "UNKNOWN SEX".
@@ -403,11 +459,12 @@ def getContributorSpecificFeatureList(contribAnimFeatCount, specificfeat):
     for contrib, feature in contribAnimFeatCount.items():
         contribSpecFeatureMap[contrib]=feature.get(specificfeat , 0)
         
-    
     sortedcontribSpecFeatureMap=sorted(contribSpecFeatureMap.items(),key = operator.itemgetter(0))
     
     return sortedcontribSpecFeatureMap
 
+
+# In[13]:
 
 # Arguments : Feature name first the specific features in a list
 # Returns : None
@@ -427,7 +484,7 @@ def createcombinedcsv(*args):
     
         Feat1Feat2Merge = pd.merge(contribFeat1Df,contribFeat2Df,left_on = 'CONTRIBUTOR',right_on = 'CONTRIBUTOR')
     
-        Feat1Feat2Merge.to_csv(args[1] +"and" +args[2] 'and' + args[2] + '.csv',index=False)
+        Feat1Feat2Merge.to_csv(args[1] +'and' + args[2] + '.csv',index=False)
     elif args[0] == "sex/text":
         with open('contrib' + args[3] + 'Map.csv') as f:
             next(f)
@@ -466,7 +523,7 @@ def createcombinedcsv(*args):
         Feat3Feat4Merge = pd.merge(Feat2Feat3Merge,contribFeat4Df,left_on = 'CONTRIBUTOR',right_on = 'CONTRIBUTOR')
         FinalContribDf = pd.merge(Feat3Feat4Merge,contribFeat5Df,left_on = 'CONTRIBUTOR',right_on = 'CONTRIBUTOR')
     
-        FinalContribDf.to_csv(args[1] '-' + args[5] + '.csv',index=False)
+        FinalContribDf.to_csv(args[1] +'-' + args[5] + '.csv',index=False)
         
     elif args[0] == "yaw/text":
         with open('contrib' + args[3] + 'Map.csv') as f:
@@ -511,8 +568,10 @@ def createcombinedcsv(*args):
         FinalContribDf = pd.merge(Feat6Feat7Merge,contribFeat8Df,left_on = 'CONTRIBUTOR',right_on = 'CONTRIBUTOR')
 
 
-        FinalContribDf.to_csv(args[0]+'yaw_texts.csv',index=False) 
+        FinalContribDf.to_csv('yaw_texts.csv',index=False) 
 
+
+# In[14]:
 
 # Arguments : feature, specific feature and lists
 # Accepted Specific Features: sex_texts = "Male", "Female", "UNKNOWN SEX", etc.
@@ -593,6 +652,9 @@ def createCombinedCsvFromList(*args):
 
         FinalContribDf.to_csv('yaw_texts.csv',index=False) 
 
+
+# In[15]:
+
 # Arguments : CSV file
 # Returns : None
 # Creates: csv file with sum column
@@ -617,9 +679,14 @@ def sumRows(filename, header=False):
 
             writer.writerows(all)
 
+
+# In[2]:
+
 # Arguments: Filename, feature, and required specific features in a list in that order
 # Creates: a stacked bar graph
 def createStackgraph(*args):
+    
+    plt.title("Zebra/Giraffe Sex")# change for zebra, giraffe or both
     
     if args[1] == "species/text" or args[1] == "exemplar":
         data=pd.read_csv(args[0],  usecols=(0,1,2,3))
@@ -634,7 +701,7 @@ def createStackgraph(*args):
         
     data = data.sort_values('Sum', ascending=False)
     width = 0.50
-    ind = np.arange(56) + 0.75
+    ind = np.arange(56) + 0.75 #56 for both, 54 for zebras, 44 for giraffes
     
     
     if args[1] == "species/text" or args[1] == "exemplar":
@@ -673,14 +740,17 @@ def createStackgraph(*args):
     else:
         print("error")
         
-    plt.xticks(ind, data.loc[:, 'CONTRIBUTOR'], rotation=90)
-    plt.rcParams['xtick.labelsize'] = 8
-    plt.ylabel('Total Number of Animals')
+    plt.xticks(ind, data.loc[:, 'CONTRIBUTOR'], rotation=90, fontsize=6)
+    p.xlim(0, 56) #no more whitespace, change to 56 if using both zebras and giraffes,54 for zebras only, 44 for giraffes only
+    plt.ylabel('Total Number of Giraffe/Zebras') # change to zebras or giraffes or both
     plt.xlabel('Contributor')
 
     #plt.show() #get rid of to save image
     
-    plt.savefig(str("../"+args[2] +"_expt2.png"),bbox_inches='tight') # can't put feature because it says can't find directory ex. sex/text
+    plt.savefig(str("../"+args[2] +"_expt2.png"),bbox_inches='tight') # must change for each one
+
+
+# In[18]:
 
 # Arguments : csv_file , Required Specific Feature
 # Accepted Specific Features: sex_texts = "Male", "Female", "UNKNOWN SEX", etc.
@@ -702,10 +772,14 @@ def creategraph(csv_file, specific_feature):
     
     plt.savefig(str("../"+specific_feature+"_expt2.png") ,bbox_inches='tight')
  
+
+
+# In[12]:
+
 # Arguments : csv_file 
 # Creates: csv file with Nid, Total
 def totalNumberOfContrib(csv_file):
-    NidContribTotal = numberPicsIndividualContributor('results.csv', False)
+    NidContribTotal = numberPicsIndividualContributor(csv_file, False)
 
     countUnique={}
     for (nid, contrib), total in NidContribTotal.items():
@@ -717,6 +791,10 @@ def totalNumberOfContrib(csv_file):
     csv_out.writerow(['NID', 'Count'])
     for row in sortedcountUnique:
         csv_out.writerow(row)
+        
+
+
+# In[22]:
 
 # Arguments : csv_file 
 # Creates: csv file with either Nid, Total or Nid, # of contributors
@@ -724,22 +802,31 @@ def TotalsGraph(filename):
     data=pd.read_csv(filename,  usecols=(0,1))
 
     width = 0.10
-    ind = np.arange(2056) + 0.15
+    ind = np.arange(151) + 0.15 #change to 2056 if using both zebras and giraffes, 1905 for zebras only, 151 for giraffes
 
-    plt.bar(ind,data.loc[:, 'Count'], width, color = 'r')
-
-    plt.xticks(ind,data.loc[:, 'NID'], rotation=90)
-    plt.rcParams['xtick.labelsize'] = 1
-    plt.xlabel('NID')
+    plt.figure(figsize=(16,4)) #20,4 for zebras and both, 16,4 for giraffes
+    plt.bar(ind,data.loc[:, 'Count'], width, color='r')
     
-    if filename == 'NidTotal.csv':
+    plt.xticks(ind,data.loc[:, 'NID'], rotation=90, fontsize=6)
+    plt.xlabel('Animal ID')
+    plt.tick_params(top='off', right='off')
+
+    if filename == 'NidTotal.csv' or filename == 'TotalZebra.csv' or 'TotalGiraffe.csv':
+        plt.title('Total Photos Taken By Animal ID')
         plt.ylabel('Total Photos Taken')
+        plt.xlim(0, 1905) #change to 2056 if using both zebras and giraffes, 1905 for zebras only, 151 for giraffes
         plt.savefig(str("../NIDTotal_expt2.png") ,bbox_inches='tight')
-    else:
+        
+    elif filename == 'NidNumberOfContrib.csv':
+        plt.title('Total Number of Contributors By Animal ID')
         plt.ylabel('Total Contributors')
+        plt.xlim(0, 151) #change to 2056 if using both zebras and giraffes, 1905 for zebras only, 151 for giraffes
         plt.savefig(str("../NIDContribTotal_expt2.png") ,bbox_inches='tight')
     
     #plt.show()
+
+
+# In[ ]:
 
 # Arguments : 2 csv_files
 # Creates a merged csv file based on NID
@@ -747,23 +834,115 @@ def mergeTwoFiles(filename1, filename2):
     csv1 = pd.read_csv(filename1)
     csv2 = pd.read_csv(filename2)
     merged = csv1.merge(csv2, on = 'NID')
-    merged.to_csv('output.csv', index = False)
+    merged.to_csv('PhotosTakenContribTotal.csv', index = False)
+
+
+# In[6]:
 
 # Arguments : csv_file
 # Creates a PointGraph
 def createCombinedPointGraph(filename):
     data=pd.read_csv(filename,  usecols=(0,1,2))
     width = 0.10
-    ind = np.arange(2056) + 0.15
+    ind = np.arange(2056) #change to 2056 if using both zebras and giraffes, 1905 for zebras only, 151 for giraffes
 
-    p1=p.plot(data.loc[:, 'Count_x'], marker='o', color='r')
-    p2=p.plot(data.loc[:, 'Count_y'], marker='o', color = 'b')
+    p.figure(figsize=(20,4)) #giraffe(16,4), zebra(20,4)
+    
+    p.xlim(0, 2056) #no more whitespace,#change to 2056 if using both zebras and giraffes, 1905 for zebras only, 151 for giraffes
+    p1=p.plot(data.loc[:, 'Count_x'], marker='o', color='r', alpha=0.5, ms=2) #giraffe ms=3
+    p2=p.plot(data.loc[:, 'Count_y'], marker='o', color = 'b', alpha=0.5, ms= 2) #giraffe ms=3
 
+    p.xticks(ind, data.loc[:, 'NID'], rotation=90, fontsize=6)  #giraffe fontsize=6
+    p.tick_params(top='off', right='off')
     p.legend((p1[0], p2[0]), ('NID Total', 'Number of Contributors'))
-    p.xticks(ind,data.loc[:, 'NID'], rotation=90)
-    p.rcParams['xtick.labelsize'] = 1
+    p.title('Total Photos Taken vs Total Number of Contributors') # change for zebra, giraffe, or both
     p.ylabel('Total Photos Taken/ Total Number of Contributors')
-    p.xlabel('NID')
+    p.xlabel('Animal ID')
 
     #p.show()
-    plt.savefig(str("../NIDandContributor_expt2.png") ,bbox_inches='tight')
+    p.savefig(str("../NIDandContributor_expt2.png") ,bbox_inches='tight')
+
+
+# In[71]:
+
+# Arguments : csv_file
+# Creates two seperate csv files, one with only zebras info(AID, GID, NID, CONTRIBUTOR) and th eother with giraffe info
+def seprateZebraGiraffe(filename):
+    with open(filename) as f2: # read from csv file into a Dict with key : AID and value : GID, NID, CONTRIBUTOR
+        reader2 = csv.DictReader(f2)
+        aidToGidNidContribMap = { line['AID']: [line['GID'], line['NID'], line['CONTRIBUTOR']] for line in reader2 }
+
+    zebraDict=defaultdict(list)
+    giraffeDict=defaultdict(list)
+
+    for aid,(gid,nid,contrib) in aidToGidNidContribMap.items():
+        if (GP.getImageFeature(aid, 'species/text')[0]) == 'zebra_plains':
+            zebraDict[aid]=(gid, nid, contrib)
+        else:
+            giraffeDict[aid]=(gid, nid, contrib)
+             
+    csv_out = csv.writer(open('giraffeOnly.csv', 'w')) 
+    csv_out.writerow(['AID', 'GID', 'NID', 'CONTRIBUTOR'])
+    for aid,(gid, nid, contrib) in giraffeDict.items():
+        csv_out.writerow([aid, gid, nid, contrib])
+    
+    csv_out = csv.writer(open('zebraOnly.csv', 'w')) 
+    csv_out.writerow(['AID', 'GID', 'NID', 'CONTRIBUTOR'])
+    for aid,(gid, nid, contrib) in zebraDict.items():
+        csv_out.writerow([aid, gid, nid, contrib])
+
+
+# In[2]:
+
+# Arguments : csv_file
+# Creates a ScatterPlot
+def scatterPlot(filename): 
+    data=pd.read_csv(filename,  usecols=(0,1,2))
+    width = 0.10
+    ind = np.arange(2056) + 0.15 #change to 2056 if using both zebras and giraffes, 1905 for zebras only, 151 for giraffes
+
+    plt.scatter(data.loc[:, 'Count_x'], data.loc[:, 'Count_y'], color='r', alpha=0.5)
+
+    plt.title('Correlation Between Times Shared vs Number of Contributors')
+    plt.ylabel('Total Number of Contributors')
+    plt.xlabel('Number of Photographs Taken')
+
+    p.xlim(0, 56) #no more whitespace, top number is 28 for zebras, 54 for giraffes, 56 for both
+    #plt.show()
+    plt.savefig(str("../NIDandContributorScatterPlot_expt2.png") ,bbox_inches='tight')
+
+
+# In[44]:
+
+# Arguments : csv_file, string with either 'zebra' or 'giraffe'
+# Creates a csv file with the total numbe rof either giraffes or zebras
+def totalSpecificAnimal(filename, animal):
+    with open(filename) as f2: # read from csv file into a Dict with key : AID and value : GID, NID, CONTRIBUTOR
+        reader2 = csv.DictReader(f2)
+        aidToGidNidContribMap = { line['AID']: [line['GID'], line['NID'], line['CONTRIBUTOR']] for line in reader2 }
+    
+    if(animal == 'zebra' or animal == 'Zebra'): #just in case 'Zebra' is typed
+        topZebra={} 
+        for aid, (gid, nid, contrib) in aidToGidNidContribMap.items():
+            topZebra[nid] = topZebra.get((nid), 0) + 1
+        
+        sorted_topZebra = sorted(topZebra.items(), key=operator.itemgetter(1), reverse=True)
+    
+        csv_out = csv.writer(open('TotalZebra.csv', 'w'))
+        csv_out.writerow(['NID', 'Count'])
+        for nid, total in sorted_topZebra:
+            csv_out.writerow([nid, total])
+    
+    else:
+        topGiraffe={}
+        for aid, (gid, nid, contrib) in aidToGidNidContribMap.items():
+            topGiraffe[nid] = topGiraffe.get((nid), 0) + 1
+    
+        sorted_topGiraffe = sorted(topGiraffe.items(), key=operator.itemgetter(1), reverse=True)
+
+        csv_out = csv.writer(open('TotalGiraffe.csv', 'w'))
+        csv_out.writerow(['NID', 'Count'])
+        for nid, total in sorted_topGiraffe:
+            csv_out.writerow([nid, total])
+    
+
