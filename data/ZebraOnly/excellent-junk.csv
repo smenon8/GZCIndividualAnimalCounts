@@ -1,0 +1,55 @@
+CONTRIBUTOR,excellent,good,ok,poor,junk
+"NNP GZC Car '10WHITE', Person 'A'",5,6,2,0,0
+"NNP GZC Car '11WHITE', Person 'A'",10,29,72,8,0
+"NNP GZC Car '12WHITE', Person 'A'",3,17,8,0,0
+"NNP GZC Car '13WHITE', Person 'A'",0,1,12,0,0
+"NNP GZC Car '13WHITE', Person 'B'",2,20,29,0,0
+"NNP GZC Car '14WHITE', Person 'A'",24,32,45,7,2
+"NNP GZC Car '15WHITE', Person 'A'",3,5,40,5,0
+"NNP GZC Car '15WHITE', Person 'B'",0,0,2,0,0
+"NNP GZC Car '15WHITE', Person 'C'",0,0,4,0,0
+"NNP GZC Car '15WHITE', Person 'D'",0,2,9,6,1
+"NNP GZC Car '17WHITE', Person 'A'",0,1,11,0,0
+"NNP GZC Car '17WHITE', Person 'C'",0,4,10,0,0
+"NNP GZC Car '1BLUE', Person 'A'",7,6,10,2,0
+"NNP GZC Car '1BLUE', Person 'B'",10,24,29,5,0
+"NNP GZC Car '1BLUE', Person 'C'",2,25,42,5,0
+"NNP GZC Car '1BLUE', Person 'D'",6,6,2,0,0
+"NNP GZC Car '1PURPLE', Person 'A'",35,112,133,70,4
+"NNP GZC Car '1PURPLE', Person 'B'",45,135,185,58,3
+"NNP GZC Car '1PURPLE', Person 'C'",1,2,10,7,2
+"NNP GZC Car '1PURPLE', Person 'D'",65,195,163,68,2
+"NNP GZC Car '1RED', Person 'A'",7,25,80,0,0
+"NNP GZC Car '1RED', Person 'B'",16,54,177,1,0
+"NNP GZC Car '1WHITE', Person 'A'",2,13,21,19,3
+"NNP GZC Car '1WHITE', Person 'B'",0,22,34,31,9
+"NNP GZC Car '1WHITE', Person 'C'",4,53,32,11,1
+"NNP GZC Car '25PURPLE', Person 'A'",11,39,29,42,9
+"NNP GZC Car '2RED', Person 'A'",17,48,50,0,0
+"NNP GZC Car '2RED', Person 'B'",8,31,68,0,0
+"NNP GZC Car '2RED', Person 'C'",5,33,73,0,0
+"NNP GZC Car '2RED', Person 'D'",3,22,21,0,0
+"NNP GZC Car '2RED', Person 'E'",0,0,1,0,0
+"NNP GZC Car '2WHITE', Person 'A'",0,10,22,27,6
+"NNP GZC Car '3PURPLE', Person 'A'",1,4,4,0,0
+"NNP GZC Car '3PURPLE', Person 'B'",4,11,14,5,2
+"NNP GZC Car '3RED', Person 'A'",10,32,30,0,0
+"NNP GZC Car '3RED', Person 'B'",7,27,31,0,0
+"NNP GZC Car '3WHITE', Person 'A'",20,25,51,2,0
+"NNP GZC Car '4RED', Person 'A'",0,5,26,0,0
+"NNP GZC Car '4RED', Person 'B'",0,0,3,1,0
+"NNP GZC Car '4WHITE', Person 'A'",7,7,2,4,0
+"NNP GZC Car '5RED', Person 'A'",0,1,1,0,0
+"NNP GZC Car '5RED', Person 'C'",0,5,2,0,0
+"NNP GZC Car '5WHITE', Person 'A'",14,33,59,24,7
+"NNP GZC Car '6RED', Person 'A'",5,19,69,1,0
+"NNP GZC Car '6RED', Person 'B'",8,34,117,0,0
+"NNP GZC Car '6WHITE', Person 'B'",13,44,83,33,4
+"NNP GZC Car '7WHITE', Person 'A'",4,10,32,0,0
+"NNP GZC Car '7WHITE', Person 'B'",0,12,25,0,0
+"NNP GZC Car '8WHITE', Person 'A'",13,49,74,7,1
+"NNP GZC Car '9WHITE', Person 'A'",3,7,7,8,2
+"NNP_Master,pachy.cs.uic.edu:jonc:/home/shared_ibeis/data/work/NNP_Master,,,,,6",16,194,514,418,22
+"PZ_MUGU_18,hyrule:joncrall:/media/raid/work/PZ_MUGU_18,,,,,0",4,70,154,119,18
+"PZ_MUGU_19,hyrule:joncrall:/media/raid/work/PZ_MUGU_19,,,,,0",22,94,171,60,8
+"PZ_MUGU_20,hyrule:joncrall:/media/raid/work/PZ_MUGU_20,,,,,0",1,25,64,40,4

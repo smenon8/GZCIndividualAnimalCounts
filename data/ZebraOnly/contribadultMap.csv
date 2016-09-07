@@ -1,0 +1,55 @@
+CONTRIBUTOR,adult
+"NNP GZC Car '10WHITE', Person 'A'",11
+"NNP GZC Car '11WHITE', Person 'A'",81
+"NNP GZC Car '12WHITE', Person 'A'",13
+"NNP GZC Car '13WHITE', Person 'A'",6
+"NNP GZC Car '13WHITE', Person 'B'",32
+"NNP GZC Car '14WHITE', Person 'A'",65
+"NNP GZC Car '15WHITE', Person 'A'",47
+"NNP GZC Car '15WHITE', Person 'B'",2
+"NNP GZC Car '15WHITE', Person 'C'",3
+"NNP GZC Car '15WHITE', Person 'D'",13
+"NNP GZC Car '17WHITE', Person 'A'",6
+"NNP GZC Car '17WHITE', Person 'C'",9
+"NNP GZC Car '1BLUE', Person 'A'",18
+"NNP GZC Car '1BLUE', Person 'B'",50
+"NNP GZC Car '1BLUE', Person 'C'",48
+"NNP GZC Car '1BLUE', Person 'D'",7
+"NNP GZC Car '1PURPLE', Person 'A'",228
+"NNP GZC Car '1PURPLE', Person 'B'",261
+"NNP GZC Car '1PURPLE', Person 'C'",16
+"NNP GZC Car '1PURPLE', Person 'D'",312
+"NNP GZC Car '1RED', Person 'A'",80
+"NNP GZC Car '1RED', Person 'B'",157
+"NNP GZC Car '1WHITE', Person 'A'",35
+"NNP GZC Car '1WHITE', Person 'B'",64
+"NNP GZC Car '1WHITE', Person 'C'",60
+"NNP GZC Car '25PURPLE', Person 'A'",69
+"NNP GZC Car '2RED', Person 'A'",75
+"NNP GZC Car '2RED', Person 'B'",72
+"NNP GZC Car '2RED', Person 'C'",70
+"NNP GZC Car '2RED', Person 'D'",32
+"NNP GZC Car '2RED', Person 'E'",1
+"NNP GZC Car '2WHITE', Person 'A'",36
+"NNP GZC Car '3PURPLE', Person 'A'",7
+"NNP GZC Car '3PURPLE', Person 'B'",19
+"NNP GZC Car '3RED', Person 'A'",41
+"NNP GZC Car '3RED', Person 'B'",44
+"NNP GZC Car '3WHITE', Person 'A'",59
+"NNP GZC Car '4RED', Person 'A'",20
+"NNP GZC Car '4RED', Person 'B'",2
+"NNP GZC Car '4WHITE', Person 'A'",14
+"NNP GZC Car '5RED', Person 'A'",1
+"NNP GZC Car '5RED', Person 'C'",3
+"NNP GZC Car '5WHITE', Person 'A'",75
+"NNP GZC Car '6RED', Person 'A'",71
+"NNP GZC Car '6RED', Person 'B'",96
+"NNP GZC Car '6WHITE', Person 'B'",99
+"NNP GZC Car '7WHITE', Person 'A'",28
+"NNP GZC Car '7WHITE', Person 'B'",25
+"NNP GZC Car '8WHITE', Person 'A'",90
+"NNP GZC Car '9WHITE', Person 'A'",16
+"NNP_Master,pachy.cs.uic.edu:jonc:/home/shared_ibeis/data/work/NNP_Master,,,,,6",771
+"PZ_MUGU_18,hyrule:joncrall:/media/raid/work/PZ_MUGU_18,,,,,0",236
+"PZ_MUGU_19,hyrule:joncrall:/media/raid/work/PZ_MUGU_19,,,,,0",232
+"PZ_MUGU_20,hyrule:joncrall:/media/raid/work/PZ_MUGU_20,,,,,0",75
