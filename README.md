@@ -1,7 +1,7 @@
 # Identifying Individual Animal Counts in Great Zebra Count Data
 
 ### Authors:
-* Anthony Leon ()
+* Anthony Leon (aleon9@uic.edu)
 * Jose Hernandez (jhern41@uic.edu)
 * Sreejith Menon (smenon8@uic.edu)
 
